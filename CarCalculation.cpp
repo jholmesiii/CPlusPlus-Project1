@@ -6,23 +6,48 @@ using namespace std;
 
 int main()
 {
-    double salesTax = 6.5;
-    double basePrice, options, totalPrice, subTotal, taxedAmount;
+    double basePrice, options, totalPrice, subTotal, taxedAmount, v8Price, salesTax;
+    int region;
+    char selection, lowerSelection;
 
     cout << "What is the base price?\n" << "$";
     cin >> basePrice;
     cout << "How much are the options?\n" << "$";
     cin >> options;
+    cout << "Include a V8?\n";
+    cin >> selection;
+
+    lowerSelection = tolower(selection);
+
+    if (lowerSelection != 'y' && lowerSelection != 'n') {
+        do {
+            cout << "Bad input. Please use Y for Yes or N for No\n";
+            cin >> selection;
+            lowerSelection = tolower(selection);
+        } while (lowerSelection != 'y' && lowerSelection != 'n');
+    }
+
+    if (lowerSelection == 'y') {
+        cout << "How much is the V8?\n" << "$";
+        cin >> v8Price;
+        options = options + v8Price;
+    }
+
+    cout << "What region are you in?\n";
+    cin >> region;
+
+    if (region == 1) {
+        salesTax = 6.5;
+    }
+    else {
+        salesTax = 7.0;
+    }
 
     subTotal = basePrice + options;
     taxedAmount = (salesTax / 100) * subTotal;
     totalPrice = subTotal + taxedAmount;
 
     cout << "\nThe total price is: $" << totalPrice << "\n";
-    /*Subtotal = Base + Total Options
-    Amount of Tax = Sales Tax / 100 * subtotal
-    Total Price = Subtotal + Amount of Tax*/
-
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
