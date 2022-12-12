@@ -6,48 +6,78 @@ using namespace std;
 
 int main()
 {
-    double basePrice, options, totalPrice, subTotal, taxedAmount, v8Price, salesTax;
-    int region;
-    char selection, lowerSelection;
+    double basePrice, options, totalPrice, subTotal, taxedAmount, v8Price, salesTax, interestCharge, interestRate;
+    int region, months;
+    char lowerKeepGoing = 'y';
+    char selection, lowerSelection, keepGoing;
+    int financingOptions = 4;
+    do {
+        months = 12;
+        interestRate = 2;
+        cout << "What is the base price?\n" << "$";
+        cin >> basePrice;
+        cout << "How much are the options?\n" << "$";
+        cin >> options;
+        cout << "Include a V8?\n";
+        cin >> selection;
 
-    cout << "What is the base price?\n" << "$";
-    cin >> basePrice;
-    cout << "How much are the options?\n" << "$";
-    cin >> options;
-    cout << "Include a V8?\n";
-    cin >> selection;
+        lowerSelection = tolower(selection);
 
-    lowerSelection = tolower(selection);
+        if (lowerSelection != 'y' && lowerSelection != 'n') {
+            do {
+                cout << "Bad input. Please use Y for Yes or N for No\n";
+                cin >> selection;
+                lowerSelection = tolower(selection);
+            } while (lowerSelection != 'y' && lowerSelection != 'n');
+        }
 
-    if (lowerSelection != 'y' && lowerSelection != 'n') {
-        do {
-            cout << "Bad input. Please use Y for Yes or N for No\n";
-            cin >> selection;
-            lowerSelection = tolower(selection);
-        } while (lowerSelection != 'y' && lowerSelection != 'n');
-    }
+        if (lowerSelection == 'y') {
+            cout << "How much is the V8?\n" << "$";
+            cin >> v8Price;
+            options = options + v8Price;
+        }
 
-    if (lowerSelection == 'y') {
-        cout << "How much is the V8?\n" << "$";
-        cin >> v8Price;
-        options = options + v8Price;
-    }
+        cout << "What region are you in?\n";
+        cin >> region;
 
-    cout << "What region are you in?\n";
-    cin >> region;
+        if (region == 1) {
+            salesTax = 6.5;
+        }
+        else {
+            salesTax = 7.0;
+        }
 
-    if (region == 1) {
-        salesTax = 6.5;
-    }
-    else {
-        salesTax = 7.0;
-    }
+        subTotal = basePrice + options;
+        taxedAmount = (salesTax / 100) * subTotal;
+        totalPrice = subTotal + taxedAmount;
 
-    subTotal = basePrice + options;
-    taxedAmount = (salesTax / 100) * subTotal;
-    totalPrice = subTotal + taxedAmount;
+        cout << "\nThe total price is: $" << totalPrice << "\n\n";
+        cout << "---Financing Options---\n";
 
-    cout << "\nThe total price is: $" << totalPrice << "\n";
+        for (int x = 0; x < financingOptions; x++) {
+            //cout << "totalPrice: " << totalPrice << "\n";
+            interestCharge = ((interestRate / 100) * totalPrice);
+
+            cout << months << " months, " << interestRate << "% Interest Rate, $" << interestCharge << " total interest charged.\n";
+
+            interestRate = interestRate + 2;
+            months = months + 12;
+        }
+
+        cout << "\nDo you want to calculate another price?\n";
+        cin >> keepGoing;
+
+        lowerKeepGoing = tolower(keepGoing);
+
+        if (lowerKeepGoing != 'y' && lowerKeepGoing != 'n') {
+            do {
+                cout << "Bad input. Please use Y for Yes or N for No\n";
+                cin >> selection;
+                lowerKeepGoing = tolower(selection);
+            } while (lowerKeepGoing != 'y' && lowerKeepGoing != 'n');
+        }
+
+    } while (lowerKeepGoing == 'y');
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
